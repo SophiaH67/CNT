@@ -39,6 +39,7 @@ colors = [
     0xFFA500,
     0xAA00FF,
     0xAA0000,
+    0xFFFFFF,
 ]
 
 def hex_to_rgb(hex_color):
@@ -94,7 +95,7 @@ def movetick():
 
 while True:
     performance_start = time.time()
-    display.drawFill(0xFFFFFF)
+    display.drawFill(0x000000)
     movetick()
     draw_text()
     display.flush()
