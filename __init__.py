@@ -1,6 +1,29 @@
 import display
 import time
+from machine import Pin
+from neopixel import NeoPixel
 
+# Pin 19 controls the power supply to SD card and neopixels
+powerPin = Pin(19, Pin.OUT)
+
+# Pin 5 is the LED's data line
+dataPin = Pin(5, Pin.OUT)
+
+# create a neopixel object for 5 pixels
+np = NeoPixel(dataPin, 5)
+
+# turn on power to the LEDs
+powerPin.on()
+
+# set some colors for the pixels (RGB)
+np[0] = (255,0,0)
+np[1] = (0,255,0)
+np[2] = (0,0,255)
+np[3] = (255,255,0)
+np[4] = (255,0,255)
+
+# send colors out to LEDs
+np.write()
 
 class State:
     name = "Marnix"
@@ -23,18 +46,26 @@ colors = [
     0xFFFF00,
     0x00FFFF,
     0xFF00FF,
-    0x000000,
     0xFFA500,
     0xAA00FF,
     0xAA0000,
 ]
 
+def hex_to_rgb(hex_color):
+    return (hex_color >> 16, (hex_color >> 8) & 0xFF, hex_color & 0xFF)
+
+def get_color_by_index(index):
+    index = index % len(colors)
+    return colors[index]
 
 def cycle_color():
     State.color_index += 1
-    if State.color_index >= len(colors):
-        State.color_index = 0
+    State.color_index = State.color_index % len(colors)
 
+    # Set the color of the neopixels
+    for i in range(5):
+        np[i] = hex_to_rgb(get_color_by_index(State.color_index + i))
+    np.write()
 
 def draw_text():
     display.drawText(
