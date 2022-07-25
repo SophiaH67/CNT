@@ -2,6 +2,7 @@ import display
 import time
 from machine import Pin
 from neopixel import NeoPixel
+import nvs
 
 # Pin 19 controls the power supply to SD card and neopixels
 powerPin = Pin(19, Pin.OUT)
@@ -16,7 +17,7 @@ np = NeoPixel(dataPin, 5)
 powerPin.on()
 
 class State:
-    name = "Marnix"
+    name = nvs.nvs_getstr("owner", "nickname") # Thanks to https://mch2022.badge.team/files/4721 for finding this completely undocumented function
     x = 0
     y = 0
     x_motion = 2
