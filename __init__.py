@@ -15,16 +15,6 @@ np = NeoPixel(dataPin, 5)
 # turn on power to the LEDs
 powerPin.on()
 
-# set some colors for the pixels (RGB)
-np[0] = (255,0,0)
-np[1] = (0,255,0)
-np[2] = (0,0,255)
-np[3] = (255,255,0)
-np[4] = (255,0,255)
-
-# send colors out to LEDs
-np.write()
-
 class State:
     name = "Marnix"
     x = 0
