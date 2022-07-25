@@ -3,6 +3,8 @@ import time
 from machine import Pin
 from neopixel import NeoPixel
 import nvs
+import buttons
+import mch22 
 
 # Pin 19 controls the power supply to SD card and neopixels
 powerPin = Pin(19, Pin.OUT)
@@ -15,6 +17,12 @@ np = NeoPixel(dataPin, 5)
 
 # turn on power to the LEDs
 powerPin.on()
+
+def on_home_button(pressed):
+  if pressed:
+    mch22.exit_python()
+
+buttons.attach(buttons.BTN_HOME, on_home_button)
 
 class State:
     name = nvs.nvs_getstr("owner", "nickname") # Thanks to https://mch2022.badge.team/files/4721 for finding this completely undocumented function
